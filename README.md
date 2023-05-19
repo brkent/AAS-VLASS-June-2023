@@ -1,13 +1,15 @@
 # Building a Neural Network to Classify VLA Sky Survey Objects
 ## AAS Splinter Session - June 2023
 
+### [Brian R. Kent](https://www.cv.nrao.edu/~bkent/), National Radio Astronomy Observatory ([NRAO](https://science.nrao.edu/))
+
 In this example, we will build a train a simple CNN model to classify image cutouts from the [NRAO VLA Sky Survey](https://vlass.org).
 
-In order to accomplish this, we will use the package [TensorFlow](https://www.tensorflow.org/) to train an augmented [convolutional neural network](https://towardsdatascience.com/a-comprehensive-guide-to-convolutional-neural-networks-the-eli5-way-3bd2b1164a53) (CNN).
+In order to accomplish this, we will use the package [TensorFlow](https://www.tensorflow.org/) to train an augmented [convolutional neural network](https://towardsdatascience.com/a-comprehensive-guide-to-convolutional-neural-networks-the-eli5-way-3bd2b1164a53) (CNN).  This falls under the umbrella of [*deep learning*](https://developer.nvidia.com/deep-learning).
 
-CNNs are useful for examining and classifying images.  This examine requires a basic knoweldge of [Python](https://python.org/).
+CNNs are useful for examining and classifying images.  This example requires a basic knoweldge of [Python](https://python.org/).
 
-Refer to the paper by [Lacy et al. 2020](https://ui.adsabs.harvard.edu/abs/2020PASP..132c5001L/abstract) for a description of the VLA Sky Survey.
+Refer to the paper by [Lacy et al. 2020](https://ui.adsabs.harvard.edu/abs/2020PASP..132c5001L/abstract) for an excellent description of the VLA Sky Survey.
 
 # Overview
 
@@ -179,19 +181,6 @@ y_train = keras.utils.to_categorical(y_train, num_classes)
 y_valid = keras.utils.to_categorical(y_valid, num_classes)
 ```
 
-
-```python
-import numpy as np
-x=np.array([0,0,0,1,2,3,2,1,0,1,3,2,2,3,2,1])
-```
-
-
-
-
-    array([0, 0, 0, 1, 2, 3, 2, 1, 0, 1, 3, 2, 2, 3, 2, 1])
-
-
-
 # Building a Sequential Model
 
 We will import the [Sequential Model](https://www.tensorflow.org/guide/keras/sequential_model) and [layers](https://www.tensorflow.org/api_docs/python/tf/keras/layers) that we need to use.  Each layer has exactly one input tensor and one output tensor.
@@ -202,22 +191,23 @@ These are our 2D convolutional layers. Small kernels will go over the input imag
 ```Python
 model.add(Conv2D(75 , (3,3) , strides = 1 , padding = 'same'...)
 ```
-75 refers to the number of filters that will be learned. (3,3) refers to the size of those filters. Strides refer to the step size that the filter will take as it passes over the image. Padding refers to whether the output image that's created from the filter will match the size of the input image. 
+75 refers to the number of filters that will be learned. (3,3) refers to the size of those filters. Strides refer to the step size that the filter will take as it passes over the image. Padding refers to whether the output image that's created from the filter will match the size of the input image.
+We use a [*Rectilinear Activation Function*](https://arxiv.org/abs/1803.08375) or *ReLu* for our neurons.  This is a go/no-go decision maker - if our input is postive, then the input will pass through - otherwise, zero goes through. 
 
 ### [BatchNormalization](https://www.tensorflow.org/api_docs/python/tf/keras/layers/BatchNormalization)
 Like normalizing our inputs, batch normalization scales the values in the hidden layers to improve training. [Read more about it in detail here](https://blog.paperspace.com/busting-the-myths-about-batch-normalization/). 
 
 ### [MaxPool2D](https://www.tensorflow.org/api_docs/python/tf/keras/layers/MaxPool2D)
-Max pooling takes an image and essentially shrinks it to a lower resolution. It does this to help the model be robust to translation (objects moving side to side), and also makes our model faster.
+Max pooling regrids an image to a lower resolution.  This allows us to perform linear translational shifts and helps the model execute faster.
 
 ### [Dropout](https://www.tensorflow.org/api_docs/python/tf/keras/layers/Dropout)
-Dropout is a technique for preventing overfitting. Dropout randomly selects a subset of neurons and turns them off, so that they do not participate in forward or backward propagation in that particular pass. This helps to make sure that the network is robust and redundant, and does not rely on any one area to come up with answers.  
+ Dropout randomly selects a subset of neurons and turns them off, so that they do not participate in forward or backward propagation in that particular pass.  It is a technique for preventing overfitting, a common problem in deep learning and neural network creation. This helps to make sure that the network is robust and redundant, and does not inadvertendly become dependent on a single area to come up with answers for classification.  
 
 ### [Flatten](https://www.tensorflow.org/api_docs/python/tf/keras/layers/Flatten)
 Flatten takes the output of one layer which is multidimensional, and flattens it into a one-dimensional array. The output is called a feature vector and will be connected to the final classification layer.
 
 ### [Dense](https://www.tensorflow.org/api_docs/python/tf/keras/layers/Dense)
-We have seen dense layers before in our earlier models. Our first dense layer (512 units) takes the feature vector as input and learns which features will contribute to a particular classification. The second dense layer (24 units) is the final classification layer that outputs our prediction.
+Our first dense layer (512 units) takes the feature vector as input and learns which features will contribute to a particular classification. The second dense layer (24 units) is the final classification layer that outputs our prediction.
 
 
 ```python
@@ -512,6 +502,7 @@ def plot_confusion_matrix(cm, class_names):
     plt.tight_layout()
     plt.ylabel('True label')
     plt.xlabel('Predicted label')
+    plt.grid(b=None)
     #return figure
 ```
 
@@ -526,7 +517,7 @@ plot_confusion_matrix(cm, class_names)
 
 
     
-![png](output_files/output_39_0.png)
+![png](output_files/output_38_0.png)
     
 
 
@@ -555,37 +546,23 @@ plt.ylabel('True')
 
 
     
-![png](output_files/output_41_1.png)
+![png](output_files/output_40_1.png)
     
 
 
-# Summary
+# Summary and References
+
+We have given a basic introduction to creating a neural network for VLASS detection classification with TensorFlow. Review these publications and links for further study.
+
+* [Focus on Machine Intelligence in Astronomy and Astrophysics](https://iopscience.iop.org/journal/1538-3873/page/machine-intelligence-in-astronomy-and-astrophysics)
+* [NVidia Deep Learning Institute](https://www.nvidia.com/en-us/training/)
+* [TensorFlow Quickstart](https://www.tensorflow.org/tutorials/quickstart/beginner)
+* [PyTorch Tutorials](https://pytorch.org/tutorials/)
+
+# Acknowledgements
+
+Thanks to the VLASS team of NRAO scientists, postdocs, data analysts, software engineers, and community members who push this project forward.
+
+The [National Radio Astronomy Observatory](https://science.nrao.edu/) is a facility of the [National Science Foundation](https://www.nsf.gov/) operated under cooperative agreement by [Associated Universities, Inc](https://www.aui.edu). 
 
 
-
-
-```python
-y_test.shape
-```
-
-
-
-
-    (50000,)
-
-
-
-
-```python
-plt.hist(y_test[0:1000])
-```
-
-
-```python
-plt.hist(labels)
-```
-
-
-```python
-
-```
