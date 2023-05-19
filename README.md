@@ -1,3 +1,5 @@
+![png](output_files/Logo-Group-Color.png)
+
 # Building a Neural Network to Classify VLA Sky Survey Objects
 ## AAS Splinter Session - June 2023
 
