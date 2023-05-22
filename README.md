@@ -4,6 +4,7 @@
 ## [Splinter Session](https://science.nrao.edu/vlass/vlass-at-aas242) - June 2023 [AAS 242 Albuquerque](https://aas.org/meetings/aas242)
 
 ### [Brian R. Kent](https://www.cv.nrao.edu/~bkent/), National Radio Astronomy Observatory ([NRAO](https://science.nrao.edu/))
+@VizAstro on [Twitter](https://www.twitter.com/vizastro), [Instagram](https://www.instagram.com/vizastro), and [YouTube](https://www.youtube.com/user/VisualizeAstronomy).
 
 In this example, we will build and train a simple CNN model to classify image cutouts from the [NRAO VLA Sky Survey](https://science.nrao.edu/vlass/).
 
