@@ -1,11 +1,11 @@
 ![png](output_files/Logo-Group-Color.png)
 
-# Building a Neural Network to Classify VLA Sky Survey Objects
-## AAS Splinter Session - June 2023
+# **Building a Neural Network to Classify VLA Sky Survey Objects**
+## [Splinter Session](https://science.nrao.edu/vlass/vlass-at-aas242) - June 2023 [AAS 242 Albuquerque](https://aas.org/meetings/aas242)
 
 ### [Brian R. Kent](https://www.cv.nrao.edu/~bkent/), National Radio Astronomy Observatory ([NRAO](https://science.nrao.edu/))
 
-In this example, we will build a train a simple CNN model to classify image cutouts from the [NRAO VLA Sky Survey](https://vlass.org).
+In this example, we will build and train a simple CNN model to classify image cutouts from the [NRAO VLA Sky Survey](https://vlass.org).
 
 In order to accomplish this, we will use the package [TensorFlow](https://www.tensorflow.org/) to train an augmented [convolutional neural network](https://towardsdatascience.com/a-comprehensive-guide-to-convolutional-neural-networks-the-eli5-way-3bd2b1164a53) (CNN).  This falls under the umbrella of [*deep learning*](https://developer.nvidia.com/deep-learning).
 
@@ -25,6 +25,14 @@ Refer to the paper by [Lacy et al. 2020](https://ui.adsabs.harvard.edu/abs/2020P
 * Compile and fit the model
 * Test the model performance
 * Visually display the results
+
+# Data Viewers
+
+*   [HIPS Image Viewer](http://archive-new.nrao.edu/vlass/HiPS/VLASS_Epoch1/Quicklook/)
+*   [Legacy Survey Viewer](https://www.legacysurvey.org/viewer)
+*   [CIRADA VLASS Search](https://www.cadc-ccda.hia-iha.nrc-cnrc.gc.ca/en/search/?collection=VLASS&noexec=true) 
+
+
 
 # Data Import
 
@@ -50,11 +58,11 @@ labels = pickle.load(urlopen(labels_file))
 ```python
 da = data_array.shape
 dl = labels.shape
-print("{!s} images each of size {!s} x {!s} pixels.".format(da[0],da[1],da[2]))
+print("{!s} images, each of size {!s} x {!s} pixels.".format(da[0],da[1],da[2]))
 print("There are {!s} corresponding labels - one category for each image.".format(dl[0]))
 ```
 
-    61351 images each of size 64 x 64 pixels.
+    61351 images, each of size 64 x 64 pixels.
     There are 61351 corresponding labels - one category for each image.
 
 
@@ -65,13 +73,13 @@ We will use 50,000 objects for our training dataset, and the rest for validation
 cutoff_index = 50000
 x_train = data_array[0:cutoff_index, :, :]
 y_train = np.array(labels[0:cutoff_index])
-x_valid = data_array[cutoff_index+1:, :, :]
-y_valid = np.array(labels[cutoff_index+1:])
+x_valid = data_array[cutoff_index:, :, :]
+y_valid = np.array(labels[cutoff_index:])
 
 print("There are {!s} objects for training and {!s} for validation.".format(x_train.shape[0], x_valid.shape[0]))
 ```
 
-    There are 50000 objects for training and 11350 for validation.
+    There are 50000 objects for training and 11351 for validation.
 
 
 # Examine a training image
@@ -89,7 +97,7 @@ plt.show()
 
 
     
-![png](output_files/output_8_0.png)
+![png](output_files/output_9_0.png)
     
 
 
@@ -132,7 +140,7 @@ plt.show()
 
 
     
-![png](output_files/output_10_0.png)
+![png](output_files/output_11_0.png)
     
 
 
@@ -149,7 +157,7 @@ print("Our validation data array is now of shape {!s}".format(x_valid.shape))
 ```
 
     Our training data array is now of shape (50000, 64, 64, 1)
-    Our validation data array is now of shape (11350, 64, 64, 1)
+    Our validation data array is now of shape (11351, 64, 64, 1)
 
 
 # Categorize our Classes
@@ -171,7 +179,7 @@ array([[1., 0., 0., 0.],
        [0., 0., 1., 0.],
        [1., 0., 0., 0.],
        [0., 0., 1., 0.],
-       [0., 0., 0., 1.]], dtype=float32)
+       [0., 0., 0., 1.]...], dtype=float32)
 ```
 
 
@@ -252,43 +260,43 @@ The true research element of building a neural network like this lies in the tun
 model.summary()
 ```
 
-    Model: "sequential"
+    Model: "sequential_1"
     _________________________________________________________________
      Layer (type)                Output Shape              Param #   
     =================================================================
-     conv2d (Conv2D)             (None, 64, 64, 75)        750       
+     conv2d_3 (Conv2D)           (None, 64, 64, 75)        750       
                                                                      
-     batch_normalization (BatchN  (None, 64, 64, 75)       300       
-     ormalization)                                                   
-                                                                     
-     max_pooling2d (MaxPooling2D  (None, 32, 32, 75)       0         
-     )                                                               
-                                                                     
-     conv2d_1 (Conv2D)           (None, 32, 32, 50)        33800     
-                                                                     
-     dropout (Dropout)           (None, 32, 32, 50)        0         
-                                                                     
-     batch_normalization_1 (Batc  (None, 32, 32, 50)       200       
+     batch_normalization_3 (Batc  (None, 64, 64, 75)       300       
      hNormalization)                                                 
                                                                      
-     max_pooling2d_1 (MaxPooling  (None, 16, 16, 50)       0         
+     max_pooling2d_3 (MaxPooling  (None, 32, 32, 75)       0         
      2D)                                                             
                                                                      
-     conv2d_2 (Conv2D)           (None, 16, 16, 25)        11275     
+     conv2d_4 (Conv2D)           (None, 32, 32, 50)        33800     
                                                                      
-     batch_normalization_2 (Batc  (None, 16, 16, 25)       100       
+     dropout_2 (Dropout)         (None, 32, 32, 50)        0         
+                                                                     
+     batch_normalization_4 (Batc  (None, 32, 32, 50)       200       
      hNormalization)                                                 
                                                                      
-     max_pooling2d_2 (MaxPooling  (None, 8, 8, 25)         0         
+     max_pooling2d_4 (MaxPooling  (None, 16, 16, 50)       0         
      2D)                                                             
                                                                      
-     flatten (Flatten)           (None, 1600)              0         
+     conv2d_5 (Conv2D)           (None, 16, 16, 25)        11275     
                                                                      
-     dense (Dense)               (None, 512)               819712    
+     batch_normalization_5 (Batc  (None, 16, 16, 25)       100       
+     hNormalization)                                                 
                                                                      
-     dropout_1 (Dropout)         (None, 512)               0         
+     max_pooling2d_5 (MaxPooling  (None, 8, 8, 25)         0         
+     2D)                                                             
                                                                      
-     dense_1 (Dense)             (None, 4)                 2052      
+     flatten_1 (Flatten)         (None, 1600)              0         
+                                                                     
+     dense_2 (Dense)             (None, 512)               819712    
+                                                                     
+     dropout_3 (Dropout)         (None, 512)               0         
+                                                                     
+     dense_3 (Dense)             (None, 4)                 2052      
                                                                      
     =================================================================
     Total params: 868,189
@@ -348,31 +356,31 @@ model.fit(img_iter,
 ```
 
     Epoch 1/10
-    1562/1562 [==============================] - 53s 26ms/step - loss: 0.6665 - accuracy: 0.7574 - val_loss: 0.9848 - val_accuracy: 0.7561
+    1562/1562 [==============================] - 43s 26ms/step - loss: 0.6608 - accuracy: 0.7596 - val_loss: 2.3539 - val_accuracy: 0.3013
     Epoch 2/10
-    1562/1562 [==============================] - 41s 26ms/step - loss: 0.4859 - accuracy: 0.8137 - val_loss: 0.7965 - val_accuracy: 0.7474
+    1562/1562 [==============================] - 39s 25ms/step - loss: 0.4842 - accuracy: 0.8139 - val_loss: 0.4990 - val_accuracy: 0.8072
     Epoch 3/10
-    1562/1562 [==============================] - 39s 25ms/step - loss: 0.4585 - accuracy: 0.8233 - val_loss: 0.9170 - val_accuracy: 0.7036
+    1562/1562 [==============================] - 39s 25ms/step - loss: 0.4629 - accuracy: 0.8232 - val_loss: 0.5404 - val_accuracy: 0.8279
     Epoch 4/10
-    1562/1562 [==============================] - 39s 25ms/step - loss: 0.4437 - accuracy: 0.8309 - val_loss: 1.1099 - val_accuracy: 0.6879
+    1562/1562 [==============================] - 39s 25ms/step - loss: 0.4452 - accuracy: 0.8288 - val_loss: 0.4551 - val_accuracy: 0.8100
     Epoch 5/10
-    1562/1562 [==============================] - 39s 25ms/step - loss: 0.4301 - accuracy: 0.8346 - val_loss: 4.9896 - val_accuracy: 0.2471
+    1562/1562 [==============================] - 39s 25ms/step - loss: 0.4249 - accuracy: 0.8372 - val_loss: 0.4694 - val_accuracy: 0.8080
     Epoch 6/10
-    1562/1562 [==============================] - 39s 25ms/step - loss: 0.4195 - accuracy: 0.8386 - val_loss: 0.3726 - val_accuracy: 0.8415
+    1562/1562 [==============================] - 41s 26ms/step - loss: 0.4177 - accuracy: 0.8372 - val_loss: 0.4363 - val_accuracy: 0.8161
     Epoch 7/10
-    1562/1562 [==============================] - 39s 25ms/step - loss: 0.4141 - accuracy: 0.8401 - val_loss: 1.9466 - val_accuracy: 0.6978
+    1562/1562 [==============================] - 39s 25ms/step - loss: 0.4100 - accuracy: 0.8404 - val_loss: 0.4088 - val_accuracy: 0.8352
     Epoch 8/10
-    1562/1562 [==============================] - 39s 25ms/step - loss: 0.4148 - accuracy: 0.8406 - val_loss: 1.1914 - val_accuracy: 0.7559
+    1562/1562 [==============================] - 39s 25ms/step - loss: 0.4092 - accuracy: 0.8420 - val_loss: 0.4846 - val_accuracy: 0.7750
     Epoch 9/10
-    1562/1562 [==============================] - 39s 25ms/step - loss: 0.4077 - accuracy: 0.8410 - val_loss: 0.5259 - val_accuracy: 0.8214
+    1562/1562 [==============================] - 39s 25ms/step - loss: 0.4064 - accuracy: 0.8430 - val_loss: 0.6956 - val_accuracy: 0.7603
     Epoch 10/10
-    1562/1562 [==============================] - 39s 25ms/step - loss: 0.4092 - accuracy: 0.8397 - val_loss: 0.4284 - val_accuracy: 0.8418
+    1562/1562 [==============================] - 39s 25ms/step - loss: 0.4073 - accuracy: 0.8448 - val_loss: 1.0148 - val_accuracy: 0.6873
 
 
 
 
 
-    <keras.callbacks.History at 0x7fbbf2bc7400>
+    <keras.callbacks.History at 0x7f1bd4437070>
 
 
 
@@ -393,6 +401,8 @@ index2type = { 0: 'Extended',
                2: 'Double Lobes',
                3: 'Three Points'}
 
+class_names=np.array(list(index2type.values()))
+
 image = x_train[0]
 print("The image shape is: {!s}".format(image.shape))
 image = image.reshape(1,64,64,1)
@@ -409,8 +419,8 @@ prediction = model.predict(image)
 print(prediction)
 ```
 
-    1/1 [==============================] - 0s 27ms/step
-    [[1.0000000e+00 4.9273115e-26 7.7479750e-16 2.6798130e-10]]
+    1/1 [==============================] - 0s 161ms/step
+    [[9.9998546e-01 7.1191811e-14 1.6575127e-08 1.4563909e-05]]
 
 
 Our prediction returns an array of four numbers.  The first index is *1*, and the rest are near *zero*.  Use our dictionary map to turn this into a human-readable classification.
@@ -438,7 +448,7 @@ test_pred = np.argmax(test_pred_raw, axis=1)
 y_test = labels[0:cutoff_index]
 ```
 
-    1563/1563 [==============================] - 4s 3ms/step
+    1563/1563 [==============================] - 7s 4ms/step
 
 
 
@@ -447,7 +457,6 @@ import sklearn
 from sklearn import metrics
 
 cm = metrics.confusion_matrix(y_test, test_pred)
-class_names = np.array(list(index2type.values()))
 ```
 
 
@@ -457,14 +466,14 @@ print(metrics.classification_report(y_test, test_pred))
 
                   precision    recall  f1-score   support
     
-               0       0.69      0.99      0.81     10660
-               1       0.97      0.92      0.94     21040
-               2       0.83      0.79      0.81     13665
-               3       0.67      0.25      0.37      4635
+               0       0.42      1.00      0.60     10660
+               1       0.93      0.92      0.92     21040
+               2       0.95      0.29      0.44     13665
+               3       0.44      0.01      0.01      4635
     
-        accuracy                           0.84     50000
-       macro avg       0.79      0.74      0.73     50000
-    weighted avg       0.84      0.84      0.82     50000
+        accuracy                           0.68     50000
+       macro avg       0.69      0.55      0.49     50000
+    weighted avg       0.78      0.68      0.64     50000
     
 
 
@@ -504,7 +513,6 @@ def plot_confusion_matrix(cm, class_names):
     plt.tight_layout()
     plt.ylabel('True label')
     plt.xlabel('Predicted label')
-    plt.grid(b=None)
     #return figure
 ```
 
@@ -519,7 +527,7 @@ plot_confusion_matrix(cm, class_names)
 
 
     
-![png](output_files/output_38_0.png)
+![png](output_files/output_39_0.png)
     
 
 
@@ -548,7 +556,7 @@ plt.ylabel('True')
 
 
     
-![png](output_files/output_40_1.png)
+![png](output_files/output_41_1.png)
     
 
 
