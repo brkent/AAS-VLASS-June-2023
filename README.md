@@ -5,7 +5,7 @@
 
 ### [Brian R. Kent](https://www.cv.nrao.edu/~bkent/), National Radio Astronomy Observatory ([NRAO](https://science.nrao.edu/))
 
-In this example, we will build and train a simple CNN model to classify image cutouts from the [NRAO VLA Sky Survey](https://vlass.org).
+In this example, we will build and train a simple CNN model to classify image cutouts from the [NRAO VLA Sky Survey](https://science.nrao.edu/vlass/).
 
 In order to accomplish this, we will use the package [TensorFlow](https://www.tensorflow.org/) to train an augmented [convolutional neural network](https://towardsdatascience.com/a-comprehensive-guide-to-convolutional-neural-networks-the-eli5-way-3bd2b1164a53) (CNN).  This falls under the umbrella of [*deep learning*](https://developer.nvidia.com/deep-learning).
 
