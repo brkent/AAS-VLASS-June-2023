@@ -218,7 +218,7 @@ Max pooling regrids an image to a lower resolution.  This allows us to perform l
 Flatten takes the output of one layer which is multidimensional, and flattens it into a one-dimensional array. The output is called a feature vector and will be connected to the final classification layer.
 
 ### [Dense](https://www.tensorflow.org/api_docs/python/tf/keras/layers/Dense)
-Our first dense layer (512 units) takes the feature vector as input and learns which features will contribute to a particular classification. The second dense layer (24 units) is the final classification layer that outputs our prediction.
+Our first dense layer (512 units) takes the feature vector as input and learns which features will contribute to a particular classification. The second dense layer (4 units) is the final classification layer that outputs our prediction.
 
 
 ```python
@@ -332,7 +332,7 @@ datagen = ImageDataGenerator(
 
 # Fitting the Data to our new Generator
 
-We need to use two class methods: `flow()` and `fit()`, and pass training arrays as arguments.  We then compile our model.  The resulting image interator created by `flow()` is what we will pass to the model.
+We need to use two class methods: `flow()` and `fit()`, and pass training arrays as arguments.  We then compile our model.  The resulting image iterator created by `flow()` is what we will pass to the model.
 
 We then train the model for 10 epochs.
 
