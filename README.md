@@ -14,6 +14,8 @@ CNNs are useful for examining and classifying images.  This example requires a b
 
 Refer to the paper by [Lacy et al. 2020](https://ui.adsabs.harvard.edu/abs/2020PASP..132c5001L/abstract) for an excellent description of the VLA Sky Survey.
 
+If you are new to GitHub, read through [this tutorial](https://docs.github.com/en/get-started/quickstart/hello-world) to learn how to create, fork, and clone repositories.
+
 # Overview
 
 * Explain the data preparation and loading
